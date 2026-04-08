@@ -1,5 +1,8 @@
+#include "UnorderedMap.h"
+
 //Button input number
 const byte button = 8;
+const byte buzzer = 5;
 
 //Needed for duration calculation
 unsigned long start_time;
@@ -7,16 +10,29 @@ unsigned long start_time;
 //Initializes the condition for the state change loop
 byte previous_value = LOW;
 
+const int  = {}
+
+const UnorderedMap<Sequence, char> = {};
+
+//Dictionary needs to translate a sequence of inputs into chars
+//These inputs consists of ints (durations)
+//One character will be represented by a single sequence
+//So we can store in an array of a reasonable max_size all of the durations.
+//Do we need an intermediate conversion step to just store dots and dashes?
 
 
 public class Sequence<Dot, Dash> {
 
-}
+};
 
 void setup() {
   String starter_message = "Morse Code Reader Output:";
   Serial.println(starter_message);
+  
   pinMode(button, INPUT);
+  pinMode(buzzer, OUTPUT);
+  digitalWrite(buzzer, LOW);
+
   Serial.begin(9600);
 }
 
@@ -24,17 +40,20 @@ void loop() {
   
   byte value = digitalRead(button);
   int duration = 0;
-  
+
   if (value != previous_value) {
     if (value == HIGH) {
     start_time = millis();
+    digitalWrite(buzzer, HIGH);
     } else {
     duration = millis() - start_time;
+    digitalWrite(buzzer, LOW);
     Serial.print("Duration: ");
     Serial.print(duration);
     Serial.print("ms");
     Serial.println();
     }
+    delay(5); //minimizes false readings.
   }
   previous_value = value;
 
