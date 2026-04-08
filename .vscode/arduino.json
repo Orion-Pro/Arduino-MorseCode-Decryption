@@ -1,0 +1,4 @@
+{
+    "sketch": "Morse_Code_Reader/Morse_Code_Reader.ino",
+    "board": "arduino:avr:uno"
+}
