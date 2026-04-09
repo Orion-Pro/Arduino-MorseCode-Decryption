@@ -1,4 +1,5 @@
 #include "UnorderedMap.h"
+#include "Hashtable.h"
 
 //Button input number
 const byte button = 8;
@@ -10,19 +11,22 @@ unsigned long start_time;
 //Initializes the condition for the state change loop
 byte previous_value = LOW;
 
-const int  = {}
+const UnorderedMap<Sequence, char> = {
 
-const UnorderedMap<Sequence, char> = {};
+};
 
 //Dictionary needs to translate a sequence of inputs into chars
 //These inputs consists of ints (durations)
 //One character will be represented by a single sequence
 //So we can store in an array of a reasonable max_size all of the durations.
 //Do we need an intermediate conversion step to just store dots and dashes?
+ 
 
 
-public class Sequence<Dot, Dash> {
+class Sequence<Dot, Dash> {
+    private:
 
+    public:
 };
 
 void setup() {

@@ -1,0 +1,5 @@
+{
+    "board": "arduino:avr:uno",
+    "sketch": "Morse_Code_Reader/Morse_Code_Reader.ino",
+    "port": "/dev/ttyACM0"
+}
