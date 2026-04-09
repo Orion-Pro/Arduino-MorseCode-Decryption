@@ -1,33 +1,95 @@
 #include "UnorderedMap.h"
 #include "Hashtable.h"
 
-//Button input number
+
+//Button pin #
 const byte button = 8;
+//Buzzer pin #
 const byte buzzer = 5;
 
 //Needed for duration calculation
 unsigned long start_time;
+unsigned long pause_start;
+
+//These variables need to be global for my function designs.
+int press_duration = 0;
+int pause_duration = 0;
+
+//Might be useful for cleaner code;
+const int dot;
+const int dash; //where dash == 3*dot
+
 
 //Initializes the condition for the state change loop
 byte previous_value = LOW;
 
-const UnorderedMap<Sequence, char> = {
+//--------------------------------------------------------------------------------------------------------------------------------
 
-};
+// const UnorderedMap<Sequence, char> = {
+
+// };
 
 //Dictionary needs to translate a sequence of inputs into chars
 //These inputs consists of ints (durations)
 //One character will be represented by a single sequence
 //So we can store in an array of a reasonable max_size all of the durations.
 //Do we need an intermediate conversion step to just store dots and dashes?
- 
 
+//--------------------------------------------------------------------------------------------------------------------------------
 
-class Sequence<Dot, Dash> {
-    private:
+//I also need to store my sequences into an array, to decode the message in the final step.
+//This project will work sequentially.
+  //Receive encoded input
+  //Store encoded input
+  //Decode input
+  //Output
 
+//i.e. code will not be decrypted simultaneously with the input reading.
+
+//--------------------------------------------------------------------------------------------------------------------------------
+
+class Sequence {
+    public: //For now, I'll make it private later (maybe)
+      int duration_sequence[20] = {0}; //20 is a place holder, I need to look at the morse alphabet to determine max number of inputs for a single char.
+      //Array is 0 initialized
+      
     public:
+      Sequence() {}
 };
+
+Sequence Sequencer() {
+    Sequence currentSequence;
+    int startDuration = 2000; //Placeholder, makes the function start;  //I need to calculate the pause durations as well.
+    
+    int i = 0; //counter
+
+    do {
+      byte value = digitalRead(button);
+
+      if (value != previous_value) {
+        if (value == HIGH) {
+          pause_duration = millis() - pause_start;
+          start_time = millis();
+          digitalWrite(buzzer, HIGH);
+        } else {
+            pause_start = millis();
+            press_duration = millis() - start_time;
+
+            currentSequence.duration_sequence[i] = press_duration;
+            i++;
+            digitalWrite(buzzer, LOW);
+
+            Serial.print("Duration: ");
+            Serial.print(press_duration);
+            Serial.print("ms");
+            Serial.println();
+        }
+        delay(5); //minimizes false readings.
+      }
+      previous_value = value;
+
+    } while (pause_duration < 6000);
+}
 
 void setup() {
   String starter_message = "Morse Code Reader Output:";
@@ -40,20 +102,26 @@ void setup() {
   Serial.begin(9600);
 }
 
+//rework the loop to do the following.
+//If there is a change in button_value, call the sequencer.
+//If not print out a waiting message, and call the decoder
+//Do not take in any inputs while the decoder is running.
+
 void loop() {
   
   byte value = digitalRead(button);
-  int duration = 0;
 
   if (value != previous_value) {
     if (value == HIGH) {
+    pause_duration = millis() - pause_start;
     start_time = millis();
     digitalWrite(buzzer, HIGH);
     } else {
-    duration = millis() - start_time;
+    pause_start = millis();
+    press_duration = millis() - start_time;
     digitalWrite(buzzer, LOW);
     Serial.print("Duration: ");
-    Serial.print(duration);
+    Serial.print(press_duration);
     Serial.print("ms");
     Serial.println();
     }
