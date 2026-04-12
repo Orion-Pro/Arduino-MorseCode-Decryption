@@ -1,6 +1,6 @@
 # Arduino-MorseCode-Decryption
 
-##Objective:
+## Objective:
 This project aims to take in morse coded user input pressed on a physical button, and print out the translated output.
 This project will begin with a simple hardware setup. A breadboard, few resistors, a button, and an Arduino Uno. I've done some really short projects on Arduino but I would like to further familiarize myself with the language (C++ variant) and the libraries. Hence why I chose this project. While not excessively complex, it has plenty of room to grow in complexity, and improve.
 
