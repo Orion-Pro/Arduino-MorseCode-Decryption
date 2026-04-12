@@ -51,27 +51,27 @@ int xSeq[] = {dash, dot, dot, dash};
 int ySeq[] = {dash, dot, dash, dash};
 int zSeq[] = {dash, dash, dot, dot};
 
-int oneSeq[]  = {dot, dash, dash, dash, dash};
-int twoSeq[]  = {dot, dot, dash, dash, dash};
-int threeSeq[]= {dot, dot, dot, dash, dash};
-int fourSeq[] = {dot, dot, dot, dot, dash};
-int fiveSeq[] = {dot, dot, dot, dot, dot};
-int sixSeq[]  = {dash, dot, dot, dot, dot};
-int sevenSeq[]= {dash, dash, dot, dot, dot};
-int eightSeq[]= {dash, dash, dash, dot, dot};
-int nineSeq[] = {dash, dash, dash, dash, dot};
-int zeroSeq[] = {dash, dash, dash, dash, dash};
+// int oneSeq[]  = {dot, dash, dash, dash, dash};
+// int twoSeq[]  = {dot, dot, dash, dash, dash};
+// int threeSeq[]= {dot, dot, dot, dash, dash};
+// int fourSeq[] = {dot, dot, dot, dot, dash};
+// int fiveSeq[] = {dot, dot, dot, dot, dot};
+// int sixSeq[]  = {dash, dot, dot, dot, dot};
+// int sevenSeq[]= {dash, dash, dot, dot, dot};
+// int eightSeq[]= {dash, dash, dash, dot, dot};
+// int nineSeq[] = {dash, dash, dash, dash, dot};
+// int zeroSeq[] = {dash, dash, dash, dash, dash};
 
-int questionSeq[] = {dot, dot, dash, dash, dot, dot};     
-int exclamSeq[]   = {dash, dot, dash, dot, dash, dash};   
-int periodSeq[]   = {dot, dash, dot, dash, dot, dash};    
-int commaSeq[]    = {dash, dash, dot, dot, dash, dash};   
-int semicolonSeq[]= {dash, dot, dash, dot, dash, dot};    
-int colonSeq[]    = {dash, dash, dash, dot, dot, dot};    
-int plusSeq[]     = {dot, dash, dot, dash, dot};          
-int minusSeq[]    = {dash, dot, dot, dot, dot, dash};     
-int slashSeq[]    = {dash, dot, dot, dash, dot};          
-int equalsSeq[]   = {dash, dot, dot, dot, dash};
+// int questionSeq[] = {dot, dot, dash, dash, dot, dot};     
+// int exclamSeq[]   = {dash, dot, dash, dot, dash, dash};   
+// int periodSeq[]   = {dot, dash, dot, dash, dot, dash};    
+// int commaSeq[]    = {dash, dash, dot, dot, dash, dash};   
+// int semicolonSeq[]= {dash, dot, dash, dot, dash, dot};    
+// int colonSeq[]    = {dash, dash, dash, dot, dot, dot};    
+// int plusSeq[]     = {dot, dash, dot, dash, dot};          
+// int minusSeq[]    = {dash, dot, dot, dot, dot, dash};     
+// int slashSeq[]    = {dash, dot, dot, dash, dot};          
+// int equalsSeq[]   = {dash, dot, dot, dot, dash};
 
 //--------------------------------------------------------------------------------------------------------------------------------
 
@@ -120,15 +120,15 @@ Sequence seqAlphabet[] = {
     Sequence(vSeq, 4),  Sequence(wSeq, 3),  Sequence(xSeq, 4),
     Sequence(ySeq, 4),  Sequence(zSeq, 4),
 
-    Sequence(oneSeq, 5),   Sequence(twoSeq, 5),   Sequence(threeSeq, 5),
-    Sequence(fourSeq, 5),  Sequence(fiveSeq, 5),  Sequence(sixSeq, 5),
-    Sequence(sevenSeq, 5), Sequence(eightSeq, 5), Sequence(nineSeq, 5),
-    Sequence(zeroSeq, 5),
+    // Sequence(oneSeq, 5),   Sequence(twoSeq, 5),   Sequence(threeSeq, 5),
+    // Sequence(fourSeq, 5),  Sequence(fiveSeq, 5),  Sequence(sixSeq, 5),
+    // Sequence(sevenSeq, 5), Sequence(eightSeq, 5), Sequence(nineSeq, 5),
+    // Sequence(zeroSeq, 5),
 
-    Sequence(questionSeq, 6), Sequence(exclamSeq, 6), Sequence(periodSeq, 6),
-    Sequence(commaSeq, 6),    Sequence(semicolonSeq, 6), Sequence(colonSeq, 6),
-    Sequence(plusSeq, 5),     Sequence(minusSeq, 6),  Sequence(slashSeq, 5),
-    Sequence(equalsSeq, 5)
+    // Sequence(questionSeq, 6), Sequence(exclamSeq, 6), Sequence(periodSeq, 6),
+    // Sequence(commaSeq, 6),    Sequence(semicolonSeq, 6), Sequence(colonSeq, 6),
+    // Sequence(plusSeq, 5),     Sequence(minusSeq, 6),  Sequence(slashSeq, 5),
+    // Sequence(equalsSeq, 5)
 };
 
 char charAlphabet[] = {
