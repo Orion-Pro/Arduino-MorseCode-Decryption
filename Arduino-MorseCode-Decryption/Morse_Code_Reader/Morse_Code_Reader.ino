@@ -1,25 +1,22 @@
 
-//Button pin #
-const byte button = 8;
-//Buzzer pin #
-const byte buzzer = 5;
+//Encoder Button pin #
+const byte encoderButton = 7;
+
+//Decode Button pin #
+const byte decoderButton = 12;
 
 //Needed for duration calculation
-unsigned long start_time;
-unsigned long pause_start;
+unsigned int press_start;
+unsigned int pause_start;
 
 //These variables need to be global for my function designs.
-int press_duration = 0;
-int pause_duration = 0;
+unsigned int press_duration = 0;
+unsigned int pause_duration = 0;
 
 //Might be useful for cleaner code;
 const char dot = 'd';       //100; //We can give +/- 50 to begin with //denoted d
 const char dash = 'D';      //500; //where dash == 3*dot (again +/-50) // denoted D
 const char space = 's';     //1100; //where space == 7*dot (+/-50) // denoted s
-
-//Initializes the condition for the state change loop
-byte previous_value = LOW;
-
 
 int p = 0; //phrase counter
 
@@ -159,72 +156,62 @@ MorseTree alphabet;
 
 //--------------------------------------------------------------------------------------------------------------------------------
 
-//I also need to store my sequences into an array, to decode the message in the final step.
-//This project will work sequentially.
-  //Receive encoded input
-  //Store encoded input
-  //Decode input
-  //Output
+//Reads button signal, calculates press duratio. Converts accordingly into dots and dashes
+//Also measures pause duration to return the function (and move on to decoding)
+//Keep displaying for now the durations in the Serial
 
-//i.e. code will not be decrypted simultaneously with the input reading.
-
-//--------------------------------------------------------------------------------------------------------------------------------
 
 Sequence Sequencer() {
     Sequence currentSequence;
-    int startDuration = 2000; //Placeholder, makes the function start;  //I need to calculate the pause durations as well.
-    
     int i = 0; //counter
 
+    delay(3000); //one click to call the sequencer. Ready, set, encode!
+
     do {
-      byte value = digitalRead(button);
+      byte value = digitalRead(encoderButton);
 
-      if (value != previous_value) {
-        
-        if (value == HIGH) {
-          pause_duration = millis() - pause_start;
-          start_time = millis();
-          digitalWrite(buzzer, HIGH);
-        } 
-        else {
-            pause_start = millis();
-            press_duration = millis() - start_time;
-
-            if (50 <= press_duration && press_duration <= 150)
-              currentSequence.charSequence[i] = dot;
+      if (value == HIGH) {
+        press_start = millis();
+        pause_duration = 0;
+        while (digitalRead(encoderButton) == HIGH)
+        {}
+      
+        pause_start = millis();
+        press_duration = millis() - press_start;
+        if (i < 6) {
+          if (50 <= press_duration && press_duration <= 150)
+            currentSequence.charSequence[i] = dot;
   
-            else if (450 <= press_duration && press_duration <= 550)
-              currentSequence.charSequence[i] = dash;
+          else if (450 <= press_duration && press_duration <= 550)
+            currentSequence.charSequence[i] = dash;
 
-            i++;
-
-            digitalWrite(buzzer, LOW);
-
-            //These are for debugging, we'll do a bit of front-end later.
-            Serial.print("Duration: ");
-            Serial.print(press_duration);
-            Serial.print("ms");
-            Serial.println();
+        i++;
+        currentSequence.size = i;
         }
-        delay(5); //minimizes false readings.
+        
+        //These are for debugging, we'll do a bit of front-end later.
+        Serial.print("Duration: ");
+        Serial.print(press_duration);
+        Serial.print("ms");
+        Serial.println();
       }
-      previous_value = value;
-
+      delay(5); //minimizes false readings.
     } while (pause_duration < 6000);
-    
-    currentSequence.size = i;
-    
+  
     return currentSequence;
-}
+} 
 
 //--------------------------------------------------------------------------------------------------------------------------------
 
-void Decode() {
+void Decoder() {
   String decoded_message = "";
+  p = 0;
 
   for (int i = 0; i < p; i++)
     decoded_message += alphabet.decodeSequence(phrase[i]);
 
+  
+  pause_duration = 0;
   Serial.println(decoded_message);
 }
 
@@ -232,55 +219,41 @@ void Decode() {
 
 
 void setup() {
-  String starter_message = "Morse Code Reader Output:";
-  Serial.println(starter_message);
-  
-  pinMode(button, INPUT);
-  pinMode(buzzer, OUTPUT);
-  digitalWrite(buzzer, LOW);
-
   Serial.begin(9600);
 
   Serial.println();
+
+  String starter_message = "Morse Code Reader Output:";
+  Serial.println(starter_message);
+  
+  pinMode(encoderButton, INPUT);
+  pinMode(decoderButton, INPUT);
 
 }
 
 //rework the loop to do the following.
 //If there is a change in button_value, call the sequencer.
-//If not print out a waiting message, and call the decoder
+//If not print out a waiting message.
 //Do not take in any inputs while the decoder is running.
 
 
 void loop() {
-  
-  pause_duration = 0;
-  byte value = digitalRead(button);
 
-  if (value != previous_value) {
-    if (p < 10) {
-      phrase[p] = Sequencer();
-      p++;  
-    }
+  byte encoderValue = digitalRead(encoderButton);
+  byte decoderValue = digitalRead(decoderButton);
+
+  if (encoderValue == HIGH && decoderValue == HIGH) {
+    Serial.println("Error! Please perform one task at a time.");
   }
-  else if (pause_duration >= 6000)
-    Decode();
-
+  else if (encoderValue == HIGH) {
+    Sequencer();
+  }
+  else if (decoderValue == HIGH) {
+    Decoder();
+  }
 }
-  //Move these comments to the ReadMe?
-  //Program now calculates button pressed duration correctly. We can use this to convert ticks into dots and dashes (using reasonable ranges).
-  //From there we can create a dictionary, with all of the morse characters.
-  //In the loop() store every n seconds all ticks, or store ticks into the same object until you reach an x ms long pause (pick one). Or do both and compare lol.
 
-
-//I will make global parameters for dit and dah lengths (as I am not a pro morse code communicator and I will absolutely need to slow down the pace)
-//I will also ensure reasonably forgiving ranges for the time it takes to register a sequence.
 
 //between each character there is one dit (1 time unit)
 //1 dit is a dot, and 1 dah is a dash (3 time units)
 //between words --> dah dit dah (7 time units)
-
-//As a simplifying assumption I will begin by creating a sequence class for a single sentence/sequence, I will later on try to generalize the program for continuous use.
-
-//Change of plans, after some reasearch, and conversation with a friend. I've learned that morse code was actually built to be decoded like a binary search tree
-//Using the right direction for dashes, and the left direction for dots.
-//Using this fact, I can ditch the memory heavy dictionary I currently use.
